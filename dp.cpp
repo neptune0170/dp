@@ -1,31 +1,35 @@
-#include <iostream>
-#include <string.h>
+#include <bits/stdc++.h>
 using namespace std;
-
-
-int eD(string s1, string s2, int m, int n)
+const int maximum = 1000;
+int min(int x, int y, int z)
 {
-    if(m==0)
-        return n;
-    if(n==0)
-        return m;
-        
-    if(s1[m-1]==s2[n-1])
-        return eD(s1,s2,m-1,n-1);
-    else
-    {
-        return 1 + min(eD(s1,s2,m,n-1), min(eD(s1,s2,m-1,n), eD(s1,s2,m-1,n-1)));
-    }
-    
+    return min(min(x, y), z);
 }
-
-int main() {
-	
-	
-string s1="CAT", s2="CUT";
-int n=3, m=3;
-
-cout<<eD(s1,s2,m,n);
-	
-
+ 
+int editDist(string str1, string str2, int m, int n, int dp[][maximum])
+{
+    if (m == 0)
+        return n;
+    if (n == 0)
+        return m;
+    if (str1[m - 1] == str2[n - 1])
+        return dp[m - 1][n - 1] = editDist(str1, str2, m - 1, n - 1, dp);
+    return dp[m - 1][n - 1] = 1 + min(editDist(str1, str2, m, n - 1, dp), // Insert
+                                      editDist(str1, str2, m - 1, n, dp), // Remove
+                                      editDist(str1, str2, m - 1, n - 1, dp) // Replace
+                                      );
+}
+ 
+// Driver Code
+int main()
+{
+ 
+    string str1 = "sunday";
+    string str2 = "saturday";
+    int m = str1.length();
+    int n = str2.length();
+    int dp[m][maximum];
+    memset(dp, -1, sizeof dp);
+    cout << editDist(str1, str2, m, n, dp);
+    return 0;
 }
