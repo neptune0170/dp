@@ -1,39 +1,43 @@
-#include<iostream>
-#include<string>
+#include <iostream>
+#include <string.h>
 using namespace std;
-// int memo[1000][1000];
-int lcs(string & s1,string& s2,int n,int m)
+
+int lcs(string s1,string s2)
 {
-  if(m==0 || n==0)
-  {
-    return 0;
-  }
-  // if last element are same
-  if(s1[n-1]==s2[m-1])
-  {
-    return 1+lcs(s1,s2,n-1,m-1);
-  }
-  //if last element are not equal
-  else{
-    //taking maximum 
-    return  max(
-     //remove end element from 1st string 
-    lcs(s1,s2,n,m-1),
-     //remove end element from 2nd string
-    lcs(s1,s2,n-1,m));
-
-  } 
-
+   int m=s1.length();int n=s2.length();
+   int dp[m+1][n+1];
+   for(int i=0;i<=m;i++)
+   {
+       dp[i][0]=0;
+   }
+   for(int j=0;j<=n;j++)
+   {
+      dp[0][j]=0;
+   }
+   for(int i=1;i<=m;i++)
+   {
+     for(int j=1;j<=n;j++)
+     {
+       if(s1[i-1]==s2[j-1])
+       {
+         dp[i][j]=1+dp[i-1][j-1];
+       }
+       else {
+         dp[i][j]=max(dp[i-1][j],dp[i][j-1]);
+       }
+     }
+     
+   }
+   return dp[m][n];
 }
 
-int main()
-{
-string s1="AXYZ", s2="BAZ";
+int main() {
 	
-	int n = 4, m = 3;
 	
-	// memset(memo,-1,sizeof(memo));
+	string s1="AXYZ", s2="BAZ";
 	
- int ans= lcs(s1,s2,n,m);
- cout<<ans;
+	
+	cout<<lcs(s1,s2);
+	
+
 }
