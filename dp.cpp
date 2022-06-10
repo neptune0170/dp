@@ -1,22 +1,31 @@
-//coin change Problem (count Combinations)
- #include<bits/stdc++.h>
- using namespace std;
- int getcount(int coin[],int n, int sum )
- {
-     if(sum==0)return 1;
-     if(n==0)return 0;
-     int res = getcount(coin,n-1,sum);
-     if(coin[n-1]<=sum)
-     {
-         res=res+getcount(coin,n,sum-coin[n-1]);
-     }
-     return res;
- }
- int main()
- {
-     int coin[]={1,2} ;
-     int sum =4;
-     int m=getcount(coin,2,sum);
-     cout<<m;
+#include <iostream>
+#include <string.h>
+using namespace std;
 
- }
+
+int eD(string s1, string s2, int m, int n)
+{
+    if(m==0)
+        return n;
+    if(n==0)
+        return m;
+        
+    if(s1[m-1]==s2[n-1])
+        return eD(s1,s2,m-1,n-1);
+    else
+    {
+        return 1 + min(eD(s1,s2,m,n-1), min(eD(s1,s2,m-1,n), eD(s1,s2,m-1,n-1)));
+    }
+    
+}
+
+int main() {
+	
+	
+string s1="CAT", s2="CUT";
+int n=3, m=3;
+
+cout<<eD(s1,s2,m,n);
+	
+
+}
